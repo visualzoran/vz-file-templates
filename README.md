@@ -18,6 +18,10 @@ Templates are loaded from this extension resources and from user defined folders
 
 It will also be possible to run additional wizard, specific to selected template in the next versions of this extension (i.e. show a page to collect asp.net view details and generate code).
 
+New templates can also be added using another Visual Studio Code extension, sample project doing it can be found on GitHub here:
+
+https://github.com/visualzoran/vz-templates-sample-ext
+
 ## Template definition
 
 Each template has to be saved in a separate folder as template definition file has to be named "template.json". Basic, single file template requires 4 separate files: definition, template file, dark template icon and light template icon:
