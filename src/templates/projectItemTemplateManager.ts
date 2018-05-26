@@ -37,6 +37,10 @@ export class ProjectItemTemplateManager {
         this._wizardFactories.push(wizardFactory);
     }
 
+    registerTemplatesFolder(folderPath : string) {
+        this._templateFolders.push(folderPath);
+    }
+
     loadTemplates() {
         this._rootCategory = new ProjectItemTemplateCategory();
         for (let i=0; i<this._templateFolders.length;i++) {
