@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <script src="##EXTENSIONPATH##/webviews/lib/jquery/jquery.min.js"></script>
+        <script src="##EXTENSIONPATH##/webviews/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="##EXTENSIONPATH##/webviews/templateselector/js/templateselector.js"></script>
+        <link rel="stylesheet" type="text/css" href="##EXTENSIONPATH##/webviews/lib/jquery-ui/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="##EXTENSIONPATH##/webviews/templateselector/css/templateselector.css">
+    </header>
+    <body>
+        <div id="main">
+            <div id="header" class="header">
+                <div id="title">New project item</div>
+            </div>
+
+            <div id="wizard" class="wizard">
+                <div id="content">
+                    <div id="categories"></div>
+                    <div id="templates"></div>
+                    <div id="description"></div>
+                </div>
+
+                <div class="inputarea">
+                    <div class="inputrow">
+                        <div class="fldcaption">Name:</div>
+                        <div class="fldval"><input type="text" id="inpName" name="inpName"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer">
+                <button id="finishBtn" class="button" onclick="templateSel.okClick()">OK</button>
+                <button id="cancelBtn" class="button" onclick="templateSel.cancelClick()">Cancel</button>
+            </div>
+        </div>
+
+    </body>
+</html>

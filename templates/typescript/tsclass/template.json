@@ -1,0 +1,17 @@
+{
+    "name" : "TypeScript class",
+    "description" : "New TypeScript class",
+    "defaultName" : "NewClass.ts",
+    "sortOrder" : "100",
+    "category" : "TypeScript",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "file.txt",
+            "targetName" : "$itemname$.ts",
+            "replaceParameters" : true,
+            "open" : true
+        }
+    ]
+}

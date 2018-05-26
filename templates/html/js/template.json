@@ -1,0 +1,17 @@
+{
+    "name" : "JavaScript File",
+    "description" : "New JavaScript file",
+    "defaultName" : "script.js",
+    "sortOrder" : "300",
+    "category" : "Html",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "file.js",
+            "targetName" : "$itemname$.js",
+            "replaceParameters" : true,
+            "open" : true
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "name" : "Project Item Template",
+    "description" : "New empty project item template",
+    "defaultName" : "file.txt",
+    "sortOrder" : "100",
+    "category" : "Other",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "sourceFile.txt",
+            "targetName" : "$fileinputname$",
+            "replaceParameters" : true,
+            "open" : true
+        },
+        {
+            "fileName" : "sourceTemplateJson.txt",
+            "targetName" : "template.json",
+            "replaceParameters" : true,
+            "open" : true
+        },
+        {
+            "fileName" : "icon-dark.svg",
+            "targetName" : "icon-dark.svg",
+            "replaceParameters" : true,
+            "open" : false
+        },
+        {
+            "fileName" : "icon-light.svg",
+            "targetName" : "icon-light.svg",
+            "replaceParameters" : true,
+            "open" : false
+        }        
+    ]
+}

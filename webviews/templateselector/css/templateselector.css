@@ -1,0 +1,169 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+#main {
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+}
+#header {
+    flex: 0 0 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+#title {
+    margin: 0px 10px;
+    font-size: 20pt;
+}
+#footer {
+    flex: 0 0 60px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid #303030;
+}
+#footer button {
+    margin: 3px 6px 3px 0px;
+    padding: 3px;
+    width: 80px;
+}
+#wizard {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+#content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    overflow: hidden;
+}
+#categories {
+    flex: 0 0 200px;
+    margin: 2px;
+    border: 1px solid #303030;
+}
+#templates {
+    flex: 1 1 auto;
+    margin: 2px;
+    border: 1px solid #303030;
+    overflow: auto;
+}
+#description {
+    flex: 0 0 200px;
+    margin: 2px;
+    border: 1px solid #303030;
+}
+
+#inputarea {
+    flex: 0 1 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+}
+.inputrow {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+}
+.fldcaption {
+    flex: 0 0 100px;
+    padding: 2px;
+    display: flex;
+    text-align: right;
+}
+.fldval {
+    flex: 1 1 auto;
+    padding: 2px;
+    display: flex;
+    overflow: hidden;
+    align-items: stretch;
+    justify-content: stretch;
+}
+.category {
+    margin : 0;
+    padding : 2px;
+    font-weight: bold;
+}
+.fldval input {
+    flex: 1 1 auto;
+    margin-right: 5px;
+    background: #303030;
+    border: 1px solid #404040;
+    color: #ffffff;
+}
+
+.template {
+    margin : 0;
+    padding : 2px;
+    cursor: default;
+}
+.template .icon {
+    margin:0;
+    padding:0;
+    overflow: hidden;
+    display: inline;
+}
+.template .desc {
+    display: inline;
+    cursor: default;
+    font-size:12px;
+    padding: 6px;
+    vertical-align: middle;
+}
+
+.template .icon .lighticon, .template .icon .darkicon {
+    width:24px;
+    height:24px;
+    margin:0;
+    padding: 0;
+    border: 0px none #000000;
+    vertical-align: middle;
+}
+
+.catlist {
+    margin: 0 20px 0 0;
+    padding: 0;
+}
+.cat {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.catswitch {
+    flex: 0 0 20px;    
+}
+.catname {
+    flex: 1 1 auto;
+    font-size: 16px;
+    padding: 2px;
+    cursor: default;
+}
+.selected {
+    background-color: #505050;
+}
+
+.vscode-dark .template .icon .lighticon {
+    display: none;
+}
+
+.vscode-light .template .icon .darkicon, .vscode-high-contrast .template .icon .darkicon {
+    display: none;
+}

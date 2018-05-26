@@ -1,0 +1,9 @@
+'use strict';
+
+export class $safeitemname$ {
+    
+    constructor() {
+
+    }
+
+} 

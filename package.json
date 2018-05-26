@@ -1,0 +1,81 @@
+{
+    "name": "vz-file-templates",
+    "displayName": "VZ File Templates",
+    "description": "Create new project files from templates in a visual way just like in big Visual Studio",
+    "version": "0.0.1",
+    "publisher": "visualzoran",
+    "engines": {
+        "vscode": "^1.23.0"
+    },
+    "categories": [
+        "Other"
+    ],
+	"author": {
+        "name": "Visual Zoran",
+        "url": "https://visualzoran.wordpress.com/"
+	},
+	"repository": {
+		"url": "https://github.com/visualzoran/vz-file-templates"
+	},
+    "license": "LICENSE",
+    "keywords": [
+        "templates",
+        "file"
+    ],
+    "activationEvents": [
+        "onCommand:vzfiletemplates.newFile"
+    ],
+    "icon": "resources/vzfiletemplates.png",
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "vzfiletemplates.newFile",
+                "title": "New File from Template"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "vzfiletemplates.newFile",
+                    "group": "navigation"
+                }                
+            ]
+        },
+        "configuration" : [
+            {
+                "title": "VZ File Templates",
+                "properties": {
+					"vzfiletemplates.langServerProxyFolder": {
+						"type": "string",
+						"default": ".langserverproxy",
+						"description": "Folder for temporary files used to discover workspace symbols."
+					},
+                    "vzfiletemplates.userTemplatesFolders" : {
+                        "type" : "array",
+                        "items": {
+                            "type" : "string",
+                            "default" : "",
+                            "description": "Path to user defined file templates folder."
+                        },
+                        "default" : [],
+                        "description": "List of paths to user defined file templates folders."
+                    }
+                }
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}

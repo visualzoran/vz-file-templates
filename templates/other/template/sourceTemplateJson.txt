@@ -1,0 +1,17 @@
+{
+    "name" : "Project Item Template",
+    "description" : "New empty project item template",
+    "defaultName" : "$fileinputname$",
+    "sortOrder" : "100",
+    "category" : "Other",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "$fileinputname$",
+            "targetName" : "\$itemname$.txt",
+            "replaceParameters" : true,
+            "open" : true
+        }        
+    ]
+}

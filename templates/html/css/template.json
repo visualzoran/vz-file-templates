@@ -1,0 +1,17 @@
+{
+    "name" : "CSS File",
+    "description" : "New empty css stylesheet",
+    "defaultName" : "stylesheet.css",
+    "sortOrder" : "200",
+    "category" : "Html",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "file.css",
+            "targetName" : "$itemname$.css",
+            "replaceParameters" : false,
+            "open" : true
+        }
+    ]
+}
