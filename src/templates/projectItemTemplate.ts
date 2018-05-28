@@ -3,11 +3,9 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { ProjectItemTemplateElement } from "./projectItemTemplateElement";
-import { StringHelper } from '../helpers/stringHelper';
-import { ProjectItemTemplateRunSettings } from './projectItemTemplateRunSettings';
 import { VSCodeHelper } from '../helpers/vscodeHelper';
 
-export class ProjectItemTemplate {
+export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate {
     id : number;
     templateFilePath : string;
     name : string;
@@ -89,13 +87,13 @@ export class ProjectItemTemplate {
         }
     }
 
-    run(settings : ProjectItemTemplateRunSettings) : boolean {
+    run(settings : vzFileTemplates.IProjectItemTemplateRunSettings) : boolean {
         const fs = require("fs");
         let sourceRootPath = path.dirname(this.templateFilePath);
     
         //check if files exist
         for (let i = 0; i<this.elements.length; i++) {
-            let filePath = path.join(settings.destPath, StringHelper.replaceText(this.elements[i].targetName, settings.textRepl));
+            let filePath = path.join(settings.destPath, settings.applyReplacements(this.elements[i].targetName));
             if (fs.existsSync(filePath)) {
                 vscode.window.showErrorMessage("A file with the name '" + path.basename(filePath) + "' already exists. " +
                     "Please give a unique name to the item you are adding, or delete the existing item first.");
@@ -109,7 +107,7 @@ export class ProjectItemTemplate {
         {
             for (let i = 0; i<this.elements.length; i++) {
                 let templateFile : ProjectItemTemplateElement = this.elements[i];
-                let filePath = path.join(settings.destPath, StringHelper.replaceText(templateFile.targetName, settings.textRepl));
+                let filePath = path.join(settings.destPath, settings.applyReplacements(templateFile.targetName));
                 let sourcePath = path.join(sourceRootPath, templateFile.fileName);
 
                 if (templateFile.replaceParameters) {
@@ -121,7 +119,7 @@ export class ProjectItemTemplate {
                     let fileContent : string = fs.readFileSync(sourcePath, {encoding : fileEncoding });
 
                     //replace texts
-                    fileContent = StringHelper.replaceText(fileContent, settings.textRepl);
+                    fileContent = settings.applyReplacements(fileContent);
 
                     //save file back
                     fs.writeFileSync(filePath, fileContent, {encoding : fileEncoding });

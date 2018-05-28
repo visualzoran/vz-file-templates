@@ -28,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
 
     //build api
-    let api : VzFileTemplatesApi = new VzFileTemplatesApi(itemTemplateManager);
+    let api : vzFileTemplates.IVZFileTemplatesApi = new VzFileTemplatesApi(itemTemplateManager);
 
     return api;
 }

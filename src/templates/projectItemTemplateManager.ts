@@ -5,7 +5,6 @@ import * as path from 'path';
 import { ProjectItemTemplateCategory } from './projectItemTemplateCategory';
 import { ProjectItemTemplate } from './projectItemTemplate';
 import { StringReplacement } from '../helpers/stringReplacement';
-import { ProjectItemWizardFactory } from './projectItemWizardFactory';
 import { ProjectItemTemplateRunSettings } from './projectItemTemplateRunSettings';
 import { StringHelper } from '../helpers/stringHelper';
 
@@ -13,13 +12,13 @@ export class ProjectItemTemplateManager {
     _rootCategory : ProjectItemTemplateCategory;
     protected _templateFolders : string[];
     protected _context : vscode.ExtensionContext;
-    protected _wizardFactories : ProjectItemWizardFactory[];
+    protected _wizards : vzFileTemplates.IProjectItemWizard[];
 
     constructor(context : vscode.ExtensionContext) {
         this._context = context;
         this._rootCategory = new ProjectItemTemplateCategory();        
         this._templateFolders = [];
-        this._wizardFactories = [];
+        this._wizards = [];
 
         //add main project items templates path
         this._templateFolders.push(context.asAbsolutePath('templates'));
@@ -33,8 +32,8 @@ export class ProjectItemTemplateManager {
         }
     }
 
-    registerWizardFactory(wizardFactory : ProjectItemWizardFactory) {
-        this._wizardFactories.push(wizardFactory);
+    registerWizard(wizard : vzFileTemplates.IProjectItemWizard) {
+        this._wizards.push(wizard);
     }
 
     registerTemplatesFolder(folderPath : string) {
@@ -117,22 +116,22 @@ export class ProjectItemTemplateManager {
         let templateSettings = new ProjectItemTemplateRunSettings(destPath, replList); 
 
         if ((template.wizardName) && (template.wizardName != "")) {
-            let wizardFactory : ProjectItemWizardFactory | undefined = this.getWizardFactory(template.wizardName);
-            if (!wizardFactory) {
+            let wizard : vzFileTemplates.IProjectItemWizard | undefined = this.getWizard(template.wizardName);
+            if (!wizard) {
                 vscode.window.showErrorMessage("Wizard '" + template.wizardName + "' not found.");
                 return false;
             }
-            wizardFactory.run(template, templateSettings);
+            wizard.run(template, templateSettings);
         } else {
             template.run(templateSettings);
         }
         return true;
     }
 
-    protected getWizardFactory(name : string) : ProjectItemWizardFactory | undefined {
-        for (let i=0; i<this._wizardFactories.length; i++) {
-            if (this._wizardFactories[i].name == name)
-                return this._wizardFactories[i];
+    protected getWizard(name : string) : vzFileTemplates.IProjectItemWizard | undefined {
+        for (let i=0; i<this._wizards.length; i++) {
+            if (this._wizards[i].getName() == name)
+                return this._wizards[i];
         }
         return undefined;
     }
