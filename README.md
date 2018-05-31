@@ -18,9 +18,14 @@ Templates are loaded from this extension resources and from user defined folders
 
 It will also be possible to run additional wizard, specific to selected template in the next versions of this extension (i.e. show a page to collect asp.net view details and generate code).
 
-New templates can also be added using another Visual Studio Code extension, sample project doing it can be found on GitHub here:
+New templates can also be added using another Visual Studio Code extension, 2 sample projects explaining how to do it can be found on GitHub. First one shows how to add simple templates and is available here:
 
 https://github.com/visualzoran/vz-templates-sample-ext
+
+Second one shows how to create multifile template that generates code and shows a wizard and is available here:
+
+https://github.com/visualzoran/vs-template-wizardsample-ext
+
 
 ## Template definition
 
