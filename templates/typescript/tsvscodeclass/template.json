@@ -1,0 +1,17 @@
+{
+    "name" : "VSCode extension TypeScript class",
+    "description" : "New TypeScript class with references to Visual Studio Code libraries",
+    "defaultName" : "NewClass.ts",
+    "sortOrder" : "200",
+    "category" : "TypeScript",
+    "iconLight" : "icon-light.svg",
+    "iconDark" : "icon-dark.svg",
+    "elements" : [
+        {
+            "fileName" : "file.txt",
+            "targetName" : "$itemname$.ts",
+            "replaceParameters" : true,
+            "open" : true
+        }
+    ]
+}
