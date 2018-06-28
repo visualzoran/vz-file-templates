@@ -13,8 +13,10 @@ export class ProjectItemTemplateManager {
     protected _templateFolders : string[];
     protected _context : vscode.ExtensionContext;
     protected _wizards : vzFileTemplates.IProjectItemWizard[];
+    protected _selectedTemplatePath : string;
 
     constructor(context : vscode.ExtensionContext) {
+        this._selectedTemplatePath = "";
         this._context = context;
         this._rootCategory = new ProjectItemTemplateCategory();        
         this._templateFolders = [];
@@ -30,6 +32,10 @@ export class ProjectItemTemplateManager {
                     this._templateFolders.push(userFolders[idx]);
             }
         }
+    }
+
+    setSelectedTemplate(template : ProjectItemTemplate) {
+        this._selectedTemplatePath = template.templateFilePath;
     }
 
     registerWizard(wizard : vzFileTemplates.IProjectItemWizard) {
@@ -66,8 +72,10 @@ export class ProjectItemTemplateManager {
         if (fs.existsSync(templateFilePath)) {
             let template : ProjectItemTemplate = new ProjectItemTemplate();
             try{
-                if (template.loadFromFile(templateFilePath))
+                if (template.loadFromFile(templateFilePath)) {
+                    template.selected = (this._selectedTemplatePath == template.templateFilePath);
                     this.addTemplate(template);
+                }
             }
             catch (e) {                        
             }
@@ -81,6 +89,8 @@ export class ProjectItemTemplateManager {
     addTemplate(template : ProjectItemTemplate) {
         let templateCategory : ProjectItemTemplateCategory = this.findCategoryByPath(template.category);
         templateCategory.items.push(template);
+        if (template.selected)
+            templateCategory.selected = true;
     }
 
     protected findCategoryByPath(categoryPath : string) : ProjectItemTemplateCategory {

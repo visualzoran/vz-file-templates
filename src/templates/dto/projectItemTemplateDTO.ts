@@ -12,7 +12,8 @@ export class ProjectItemTemplateDTO {
     iconDark : string;
     sortOrder : string;
     category : string;
-    wizardName : string;        
+    wizardName : string;    
+    selected : boolean;    
 
     constructor(template : ProjectItemTemplate, destPath : string, fs : any) {
         this.id = template.id;
@@ -24,6 +25,7 @@ export class ProjectItemTemplateDTO {
         this.sortOrder = template.sortOrder;
         this.category = template.category;
         this.wizardName = template.wizardName;
+        this.selected = template.selected;
     }
 
     protected getDefaultTemplateItemName(name : string, destPath : string, fs : any) : string {

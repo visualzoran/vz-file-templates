@@ -12,8 +12,8 @@ export function activate(context: vscode.ExtensionContext) {
     
     let disposable = vscode.commands.registerCommand('vzfiletemplates.newFile', (dirUri) => {
         const fs = require('fs');        
-        var destPath = dirUri.fsPath;
-        var fsStat = fs.statSync(destPath);
+        let destPath = dirUri.fsPath;
+        let fsStat = fs.statSync(destPath);
         if (!fsStat.isDirectory())
             destPath = path.dirname(destPath);       
         

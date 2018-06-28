@@ -31,7 +31,7 @@ export class ProjectItemTemplateRunSettings implements vzFileTemplates.IProjectI
     }
 
     getInputNameVariable() : string {
-        return this.getTextReplacement("$inputname$");
+        return this.getTextReplacement("$itemname$");
     }
 
     getFileInputNameVariable() : string {

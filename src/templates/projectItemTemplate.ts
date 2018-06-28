@@ -16,6 +16,7 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
     sortOrder : string;
     category : string;
     wizardName : string;
+    selected : boolean;
     elements : ProjectItemTemplateElement[];
 
     constructor() {
@@ -29,6 +30,7 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
         this.category = "";
         this.wizardName = "";
         this.templateFilePath = "";
+        this.selected = false;
         this.elements = [];
     }
 

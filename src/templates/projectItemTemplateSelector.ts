@@ -61,6 +61,7 @@ export class ProjectItemTemplateSelector extends BaseWebViewEditor {
         if (!template)
             vscode.window.showInformationMessage("Please select template first.");
         else {
+            this._templatesManager.setSelectedTemplate(template);
             this.close();
             this._templatesManager.runTemplate(this._destPath, template, name);
         }

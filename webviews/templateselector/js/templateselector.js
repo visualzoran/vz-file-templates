@@ -41,21 +41,28 @@ var templateSel = {
         this.processCategories(this._data);
 
         //render categories
+        var selId = 0;
         var content = "";
         if ((this._data) && (this._data.childCategories)) {
             $('#categories').html('');
-            this.buildCategoryTree(this._data.childCategories, $('#categories'));
+            selId = this.buildCategoryTree(this._data.childCategories, $('#categories'));
         }
-        this.selectCategory(0);
+
+        this.selectCategory(selId);
     },
 
-    buildCategoryTree : function(catList, parentDiv) {       
+    buildCategoryTree : function(catList, parentDiv) {  
+        var selId = 0;
+        var subSelId = 0;
         var mainDiv = $('<div/>', {class:'catlist'});
         
         for (var i=0; i < catList.length; i++) {
             var category = catList[i];
             var catDiv = $('<div/>', {class:'cat'});
             
+            if ((category.selected) && (category.id))
+                selId = category.id;
+
             catDiv.append($('<div/>', {class:'catswitch'}));
             catDiv.append($('<div/>', {
                 class: 'catname',
@@ -65,14 +72,20 @@ var templateSel = {
             }));
             mainDiv.append(catDiv);
 
-            if (category.childCategories)
-                this.buildCategoryTree(category.childCategories, mainDiv);
+            if (category.childCategories) {
+                subSelId = this.buildCategoryTree(category.childCategories, mainDiv);
+                if (subSelId != 0)
+                    selId = subSelId;
+            }
+
         }
 
         parentDiv.append(mainDiv);
+
+        return selId;
     },
 
-    processCategories : function(category) {
+    processCategories : function(category) {       
         //process child categories
         if ((category) && (category.childCategories)) {
             for (var i=0; i<category.childCategories.length; i++) {
@@ -128,21 +141,22 @@ var templateSel = {
             this._categoryId = id;
         $('#catname' + this._categoryId).attr('class', 'catname selected');
 
-        //var content = "";
-        //if (this._category)
-            //content = Handlebars.templates.templist(this._category);        
-        //$('#templates').html(content);
-        this.buildTemplateList(this._category);
-        
-        this.selectTemplate(this._templateId);
+        var selTemplateId = this.buildTemplateList(this._category);
+
+        this.selectTemplate(selTemplateId); //this._templateId);
     },
 
     buildTemplateList : function(category) {
+        var selId = 0;
         $('#templates').html('');
         if ((category) && (category.items)) {
             var elements = [];
             for (var i=0; i<category.items.length; i++) {
                 var item = category.items[i];
+                if (item.selected) {
+                    selId = item.id;
+                    item.selected = false;
+                }
 
                 var mainDiv = $('<div/>', {
                     class:'template',
@@ -168,6 +182,7 @@ var templateSel = {
             }
             $('#templates').append(elements);
         }
+        return selId;
     },
 
     findTemplate : function(id) {        
@@ -212,6 +227,13 @@ var templateSel = {
         this.sendMessage({
             command: 'cancelClick'
         })
+    },
+
+    inpKeyPress : function(e) {
+        if (e.which == 13) {
+            this.okClick();
+            return false;
+        }
     }
 
 };

@@ -6,12 +6,14 @@ import { ProjectItemTemplateDTO } from "./projectItemTemplateDTO";
 export class ProjectItemTemplateCategoryDTO {
     id : number;
     name : string;
+    selected : boolean;
     childCategories : ProjectItemTemplateCategoryDTO[];
     items : ProjectItemTemplateDTO[]; 
     
     constructor(category : ProjectItemTemplateCategory, destPath : string, fs : any) {
         this.id = category.id;
         this.name = category.name;
+        this.selected = category.selected;
         this.childCategories = [];
         this.items = [];
 

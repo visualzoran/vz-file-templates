@@ -1,8 +1,8 @@
 {
     "name": "vz-file-templates",
     "displayName": "VZ File Templates",
-    "description": "Create new project files from templates in a visual way just like in big Visual Studio",
-    "version": "0.0.1",
+    "description": "Create new project files from templates in a visual way just like in the big Visual Studio",
+    "version": "0.0.2",
     "publisher": "visualzoran",
     "engines": {
         "vscode": "^1.23.0"

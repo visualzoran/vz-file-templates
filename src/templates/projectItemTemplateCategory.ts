@@ -5,12 +5,14 @@ import { ProjectItemTemplate } from "./projectItemTemplate";
 export class ProjectItemTemplateCategory {
     id : number;
     name : string;
+    selected : boolean;
     childCategories : ProjectItemTemplateCategory[];
     items : ProjectItemTemplate[];
 
     constructor() {
         this.id = 0;
         this.name = "";
+        this.selected = false;
         this.childCategories = [];
         this.items = [];
     }
