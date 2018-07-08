@@ -15,15 +15,15 @@
 
             <div id="wizard" class="wizard">
                 <div id="content">
-                    <div id="categories"></div>
-                    <div id="templates"></div>
+                    <div id="categories" tabindex="0" onkeydown="templateSel.catKeyPress(event)"></div>
+                    <div id="templates" tabindex="0" onkeydown="templateSel.tmpKeyPress(event)"></div>
                     <div id="description"></div>
                 </div>
 
                 <div class="inputarea">
                     <div class="inputrow">
                         <div class="fldcaption">Name:</div>
-                        <div class="fldval"><input type="text" id="inpName" name="inpName" onkeypress="templateSel.inpKeyPress(event)"></div>
+                        <div class="fldval"><input type="text" id="inpName" name="inpName" onkeydown="templateSel.inpKeyPress(event)"></div>
                     </div>
                 </div>
             </div>

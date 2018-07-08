@@ -24,6 +24,7 @@ body {
 #title {
     margin: 0px 10px;
     font-size: 20pt;
+    color: var(--vscode-panelTitle-activeForeground);
 }
 #footer {
     flex: 0 0 60px;
@@ -31,11 +32,10 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    border-top: 1px solid #303030;
 }
 #footer button {
     margin: 3px 6px 3px 0px;
-    padding: 3px;
+    padding: 3px 4px 4px 4px;
     width: 80px;
 }
 #wizard {
@@ -55,20 +55,21 @@ body {
 #categories {
     flex: 0 0 200px;
     margin: 2px;
-    border: 1px solid #303030;
+    border: 1px solid var(--vscode-panel-border);
+    overflow: auto;
 }
 #templates {
     flex: 1 1 auto;
     margin: 2px;
-    border: 1px solid #303030;
+    border: 1px solid var(--vscode-panel-border);
     overflow: auto;
 }
 #description {
     flex: 0 0 200px;
     margin: 2px;
-    border: 1px solid #303030;
+    border: 1px solid var(--vscode-panel-border);
+    overflow: auto;
 }
-
 #inputarea {
     flex: 0 1 40px;
     display: flex;
@@ -80,12 +81,12 @@ body {
     flex: 1 1 auto;
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: center;
     justify-content: stretch;
 }
 .fldcaption {
-    flex: 0 0 100px;
-    padding: 2px;
+    flex: 0 0 70px;
+    padding: 2px 8px;
     display: flex;
     text-align: right;
 }
@@ -105,9 +106,13 @@ body {
 .fldval input {
     flex: 1 1 auto;
     margin-right: 5px;
-    background: #303030;
-    border: 1px solid #404040;
-    color: #ffffff;
+    background: var(--vscode-input-background);
+    border: 1px solid var(--vscode-panel-border);
+    color: var(--vscode-input-foreground);
+    padding: 2px;
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);    
+    font-family: var(--font-family);
 }
 
 .template {
@@ -139,25 +144,33 @@ body {
 }
 
 .catlist {
-    margin: 0 20px 0 0;
-    padding: 0;
-}
-.cat {
-    display: flex;
     margin: 0;
     padding: 0;
 }
-.catswitch {
-    flex: 0 0 20px;    
+.cat {
+    margin: 0;
+    padding: 0;
 }
 .catname {
-    flex: 1 1 auto;
-    font-size: 16px;
     padding: 2px;
     cursor: default;
 }
+
 .selected {
-    background-color: #505050;
+    background-color: var(--vscode-list-activeSelectionBackground);
+    color: var(--vscode-list-activeSelectionForeground);
+}
+.button {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+    border: 0px solid var(--vscode-panel-border);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);    
+    font-family: var(--font-family);
+    padding:5px;
+}
+.button:hover {
+    background-color: var(--vscode-button-hoverBackground);
 }
 
 .vscode-dark .template .icon .lighticon {
