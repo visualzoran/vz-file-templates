@@ -58,8 +58,13 @@ export class ProjectItemTemplateManager {
         // resolve path of each item, stored in "vzfiletemplates.userTemplatesFolders" if it is relative
         // Now all paths could be absolute or relative to workspace
         if(!path.isAbsolute(sourcePath)){
-            sourcePath = path.resolve(path.join(vscode.workspace.rootPath, sourcePath));
+            if ((vscode.workspace.workspaceFolders) && (vscode.workspace.workspaceFolders.length > 0))
+                sourcePath = path.resolve(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, sourcePath));
         }   
+
+        if (!fs.existsSync(sourcePath))
+            return;
+
         let dirContent : string[] = fs.readdirSync(sourcePath);
 
         //process sub directories

@@ -16,6 +16,8 @@ Templates are loaded from this extension resources and from user defined folders
     ]
 ```
 
+Relative paths will use current workspace root folder as the root.
+
 It will also be possible to run additional wizard, specific to selected template in the next versions of this extension (i.e. show a page to collect asp.net view details and generate code).
 
 New templates can also be added using another Visual Studio Code extension, 2 sample projects explaining how to do it can be found on GitHub. First one shows how to add simple templates and is available here:
@@ -89,9 +91,23 @@ This extension contributes the following settings:
 * `vzfiletemplates.userTemplatesFolders`: array of paths to folders containing user templates. Template manager scans all subfolders in these locations, so the only reason to specify more than one entry here is when templates are stored in completely separate folders (i.e. user templates and team templates)
 * `vzfiletemplates.langServerProxyFolder`: folder for temporary files used to discover workspace symbols. When one of file wizards needs to get list of symbols from current workspace (i.e. list of classes or class fields to display them on screen), temporary file with a bit of code will be created in this folder and then code completion request will be send to the language server. After that call, file will be cleared, so no code will be left there.
 
+## Contributors
+
+- dmitribatulin
+
 ## Release Notes
 
+### 0.0.4
+ - Relative path support added by dmitribatulin
+
+### 0.0.3
+ - VS Code themes support issue fixed (reported by nealot) 
+ - Keyboard navigation added
+
+### 0.0.2
+- ENTER key in file name text box selects template
+- Template selector remembers last selected template
+- getImputNameVariable was returning empy string instead of $itemname$ variable
+
 ### 0.0.1
-
-Initial release of VZ File Templates
-
+- Initial release
