@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.4
+ - Relative path support added by dmitribatulin
+
 ## 0.0.3
  - VS Code themes support issue fixed (reported by nealot) 
  - Keyboard navigation added

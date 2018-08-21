@@ -92,14 +92,18 @@ export class ProjectItemTemplateManager {
     protected loadTemplatesFromFolder(sourcePath: string) {
         // resolve path of each item, stored in "vzfiletemplates.userTemplatesFolders" if it is relative
         // Now all paths could be absolute or relative to workspace
+
         if (!path.isAbsolute(sourcePath) && this._workspaceDir !== "") {
             sourcePath = path.resolve(path.join(this._workspaceDir, sourcePath));
         }
 
+
         if (!fs.existsSync(sourcePath))
             return;
 
+
         let dirContent: string[] = fs.readdirSync(sourcePath);
+
 
         //process sub directories
         if (dirContent) {

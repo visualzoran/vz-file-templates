@@ -172,6 +172,10 @@ Then - you could use these variables by it's names in your templates.
 
 - dmitribatulin
 
+## Contributors
+
+- dmitribatulin
+
 ## Release Notes
 
 ### 0.0.4
