@@ -16,7 +16,11 @@ export function activate(context: vscode.ExtensionContext) {
         let fsStat = fs.statSync(destPath);
         if (!fsStat.isDirectory())
             destPath = path.dirname(destPath);       
+            
+        //value set for informational purpose only
+        itemTemplateManager.setDestintationPath(destPath);
         
+        // loading templates
         itemTemplateManager.loadTemplates();
         
         //create and show new template selector

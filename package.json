@@ -10,13 +10,13 @@
     "categories": [
         "Other"
     ],
-	"author": {
+    "author": {
         "name": "Visual Zoran",
         "url": "https://visualzoran.wordpress.com/"
-	},
-	"repository": {
-		"url": "https://github.com/visualzoran/vz-file-templates"
-	},
+    },
+    "repository": {
+        "url": "https://github.com/visualzoran/vz-file-templates"
+    },
     "license": "LICENSE",
     "keywords": [
         "templates",
@@ -39,27 +39,43 @@
                 {
                     "command": "vzfiletemplates.newFile",
                     "group": "navigation"
-                }                
+                }
             ]
         },
-        "configuration" : [
+        "configuration": [
             {
                 "title": "VZ File Templates",
                 "properties": {
-					"vzfiletemplates.langServerProxyFolder": {
-						"type": "string",
-						"default": ".langserverproxy",
-						"description": "Folder for temporary files used to discover workspace symbols."
-					},
-                    "vzfiletemplates.userTemplatesFolders" : {
-                        "type" : "array",
+                    "vzfiletemplates.langServerProxyFolder": {
+                        "type": "string",
+                        "default": ".langserverproxy",
+                        "description": "Folder for temporary files used to discover workspace symbols."
+                    },
+                    "vzfiletemplates.userTemplatesFolders": {
+                        "type": "array",
                         "items": {
-                            "type" : "string",
-                            "default" : "",
+                            "type": "string",
+                            "default": "",
                             "description": "Path to user defined file templates folder."
                         },
-                        "default" : [],
+                        "default": [],
                         "description": "List of paths to user defined file templates folders."
+                    },
+                    "vzfiletemplates.userTemplateVariables":{
+                        "type":"object",
+                        "default":{},
+                        "description":"User defined template variables. Defined as {'varName':'value'}"
+                    },
+                    "vzfiletemplates.pathConversion":{
+                        "type":"string",
+                        "enum":["win32","posix","leave"],
+                        "default":"leave",
+                        "description":"How to convert paths in templates substitutions - 'posix', with '/' char as separator or 'win32' with '\\'. Value - 'leave' - will do nothing with paths"
+                    },
+                    "vzfiletemplates.customVariablesConstructor":{
+                        "type":"string",
+                        "default":"",
+                        "description":"Path to javascript file, which will create the custom variables"
                     }
                 }
             }

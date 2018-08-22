@@ -81,15 +81,96 @@ Here is sample "template.json" file:
 ### Template variables
 
 At this moment only these variables are supported:
+* $username$ - Current user name
+* $workspacename$ - The name of the workspace you work in
+* $workspacepath$ - full path to workspace directory
+* $filefullpath$ - Full (absolute) path to the file, which will be created, based on template
+* $dirfullpath$ - Full (absolute) path to the directory, where file will be created
+* $filerelpath$ - Filepath, relative to the workspace directory
+* $dirrelpath$ - destination directory path, relative to workspace directory
 * $fileinputname$ - whole text entered into "Name" text box in template selection page
 * $itemname$ - $fileinputname$ without file extension
-* $safeitemname$" - $itemname$ with all non alphanumeric characters removed. It is usually used to specify class, function or variable name inside source files      
+* $safeitemname$ - $itemname$ with all non alphanumeric characters removed. It is usually used to specify class, function or variable name inside source files      
+* $capitemname$ - capitalized $safeitemname$ - useful, when by coding style - file must be uncapitalized, but classname must be capitalized, and still - both of them must have the same name.
+* $date$ - datestring, according to your default locale
+* $year$ - Current year (1992, 2018 etc...)
+* $month$ - Current month (as number: 1, 2, 3...)
+* $month_name_full$ - Full name of the month (January, February, March...)
+* $month_name_short$ - First three characters of the month name (Jan, Feb, Mar...)
+* $day$ - Current day of the month
+* $time$ - Current time according to your default locale
+* $hours$ - Current hour (24h format)
+* $minutes$ - Current minute
+* $seconds$ - Current seconds
+* $workspace$ - The name of the workspace you work in
 
 ## Extension Settings
 
 This extension contributes the following settings:
 * `vzfiletemplates.userTemplatesFolders`: array of paths to folders containing user templates. Template manager scans all subfolders in these locations, so the only reason to specify more than one entry here is when templates are stored in completely separate folders (i.e. user templates and team templates)
 * `vzfiletemplates.langServerProxyFolder`: folder for temporary files used to discover workspace symbols. When one of file wizards needs to get list of symbols from current workspace (i.e. list of classes or class fields to display them on screen), temporary file with a bit of code will be created in this folder and then code completion request will be send to the language server. After that call, file will be cleared, so no code will be left there.
+* `vzfiletemplates.userTemplateVariables`: object to define workspace or user dependent variables. You can define variable as `{"varName>":"varValue"}`, and then - use it in your template just as `$varName$` to substitute your value.
+* `vzfiletemplates.userTemplateVariables`: how template must convert paths for substitution. For instance - you are working under Windows OS on a project, which is designed for Linux OS. If you leave the paths 'as is' it will appear in template with Win32 path separator characters `\\` (because all of the paths resolved on Windows). It's not aesthetic. So this option could specify: `posix` - convert all paths to Unix style; `win32` - convert all paths to Windows style; `leave` - leave 'as is' (default)
+* `vzfiletemplates.customVariablesConstructor`: path to javascript file, which must return object with the generated variables. It is useful, when you need the combinations of variables by some logic, or if you need to calculate some variable value depending on some conditions, or just use javascript for variable construction. Just... Use your fantasy). Could be absolute path or relative to current workspace root dir (if you need own constructor for each project). Usage examples see below..
+
+## Tips and tricks with template variables
+
+### Variables overriding
+
+All built in variables could be overridden with `vzfiletemplates.userTemplateVariables` option in user settings or workspace settings.
+
+For instance - your project has a name: `My Awesome Project`. But for some kind of reason - the name of the workspace, you are using named as `MyAwesomeProject_test_integration` or any... To be sure, that template will resolve the 'right' name of the project you could override this value by your own in settings section of workspace (file ``<projRoot>/.vscode/settings.json``):
+
+```json
+{
+    ...
+    "vzfiletemplates.userTemplateVariables": {
+        "workspacename":"My Awesome Project"
+    },
+    ...
+}
+```
+
+### Own variables constructor
+
+`vzfiletemplates.customVariablesConstructor` option could provide an ability to create your own custom js file to calculate own template variables.
+
+To do so - just specify this option in your userconfig or in workspace config json file as a path to `*.js` file, which will return it:
+
+For instance: in your ``<projRoot>/.vscode/settings.json``:
+
+```json
+{
+    ...
+    "vzfiletemplates.customVariablesConstructor": {
+        "workspacename":"./.vscode/customVars.js" // <-- path here - relative to the workspace (e.g - relative to the root of your repo (mostly:-))
+    },
+    ...
+}
+```
+
+Then in file ``<projRoot>/.vscode/customVars.js``:
+
+```javascript
+// this how you could retrieve all of the variables, merged from built in list and custom variables, specified in configs
+const variables = global.vzfiletemplates.variables;
+
+module.exports={
+    myAwesomeVar: `My very awesome variable in project ${variables.workspacename}`,
+    // also here could be overriden any variablle (both built in or configurable custom var)
+    myVariableAtUserConfig: "newValue",
+    workspacepath: "/"
+};
+```
+
+Then - you could use these variables by it's names in your templates.
+
+> [NOTE] - Be careful with long operations in custom constructor files - it may cause extension not very usable)
+> [Other NOTE] - You could use only native JS in custom constructor file, and no dependency)))
+
+## Contributors
+
+- dmitribatulin
 
 ## Contributors
 
