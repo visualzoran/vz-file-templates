@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.5
+ - A few changes made by dmitribatulin:
+   - New variables added to the template engine
+   - Ability to define custom JavaScript file to create new variables
+   - Ability to define user variables in VS Code settings
+   - README update
+
 ## 0.0.4
  - Relative path support added by dmitribatulin
 
