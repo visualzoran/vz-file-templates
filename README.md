@@ -174,11 +174,12 @@ Then - you could use these variables by it's names in your templates.
 
 ## Release Notes
 
+
 ## 0.0.6
  - Added support for unexisting paths in templates.json#elements[].targetName option 
    (paths will be automatically ensured)
  - [FIX] - fixed $day$ variable value
-  
+
 ## 0.0.5
  - A few changes made by dmitribatulin:
    - New variables added to template engine
