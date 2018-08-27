@@ -206,20 +206,21 @@ export class ProjectItemTemplateManager {
         let userConstructorFilePath: string = vscode.workspace.getConfiguration('vzfiletemplates').get('customVariablesConstructor') || "";
 
         // getting user custom constructor
-        if (!path.isAbsolute(userConstructorFilePath) && this._workspaceDir !== "") {
-            userConstructorFilePath = path.resolve(path.join(this._workspaceDir, userConstructorFilePath));
-        }
-        if (fs.existsSync(userConstructorFilePath)){
-            // updating variables values in global scope
-            (global as any).vzfiletemplates={};
-            ((global as any).vzfiletemplates as any).variables = vars;
-            let userCustomConstructor = require(userConstructorFilePath);
-            if(userCustomConstructor){
-                // update vars list 
-                Object.assign(vars, userCustomConstructor);
+        if (userConstructorFilePath) {        
+            if (!path.isAbsolute(userConstructorFilePath) && this._workspaceDir !== "") {
+                userConstructorFilePath = path.resolve(path.join(this._workspaceDir, userConstructorFilePath));
             }
-        }
-        
+            if (fs.existsSync(userConstructorFilePath)){
+                // updating variables values in global scope
+                (global as any).vzfiletemplates={};
+                ((global as any).vzfiletemplates as any).variables = vars;
+                let userCustomConstructor = require(userConstructorFilePath);
+                if(userCustomConstructor){
+                    // update vars list 
+                    Object.assign(vars, userCustomConstructor);
+                }
+            }
+        }       
 
         for (let name in vars) {
             replList.push(new StringReplacement(`\\$${name}$`, `$${name}$`));

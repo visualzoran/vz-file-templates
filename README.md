@@ -110,7 +110,7 @@ This extension contributes the following settings:
 * `vzfiletemplates.userTemplatesFolders`: array of paths to folders containing user templates. Template manager scans all subfolders in these locations, so the only reason to specify more than one entry here is when templates are stored in completely separate folders (i.e. user templates and team templates)
 * `vzfiletemplates.langServerProxyFolder`: folder for temporary files used to discover workspace symbols. When one of file wizards needs to get list of symbols from current workspace (i.e. list of classes or class fields to display them on screen), temporary file with a bit of code will be created in this folder and then code completion request will be send to the language server. After that call, file will be cleared, so no code will be left there.
 * `vzfiletemplates.userTemplateVariables`: object to define workspace or user dependent variables. You can define variable as `{"varName>":"varValue"}`, and then - use it in your template just as `$varName$` to substitute your value.
-* `vzfiletemplates.userTemplateVariables`: how template must convert paths for substitution. For instance - you are working under Windows OS on a project, which is designed for Linux OS. If you leave the paths 'as is' it will appear in template with Win32 path separator characters `\\` (because all of the paths resolved on Windows). It's not aesthetic. So this option could specify: `posix` - convert all paths to Unix style; `win32` - convert all paths to Windows style; `leave` - leave 'as is' (default)
+* `vzfiletemplates.pathConversion`: how template must convert paths for substitution. For instance - you are working under Windows OS on a project, which is designed for Linux OS. If you leave the paths 'as is' it will appear in template with Win32 path separator characters `\\` (because all of the paths resolved on Windows). It's not aesthetic. So this option could specify: `posix` - convert all paths to Unix style; `win32` - convert all paths to Windows style; `leave` - leave 'as is' (default)
 * `vzfiletemplates.customVariablesConstructor`: path to javascript file, which must return object with the generated variables. It is useful, when you need the combinations of variables by some logic, or if you need to calculate some variable value depending on some conditions, or just use javascript for variable construction. Just... Use your fantasy). Could be absolute path or relative to current workspace root dir (if you need own constructor for each project). Usage examples see below..
 
 ## Tips and tricks with template variables
@@ -177,6 +177,13 @@ Then - you could use these variables by it's names in your templates.
 - dmitribatulin
 
 ## Release Notes
+
+## 0.0.5
+ - A few changes made by dmitribatulin:
+   - New variables added to template engine
+   - Ability to define custom JavaScript file to create new variables
+   - Ability to define user variables in VS Code settings
+   - README update
 
 ### 0.0.4
  - Relative path support added by dmitribatulin
