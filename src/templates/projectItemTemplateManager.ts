@@ -186,7 +186,7 @@ export class ProjectItemTemplateManager {
             month: now.getMonth() + 1,
             month_name_full: now.toLocaleString('en-us', { month: 'long' }),
             month_name_short: now.toLocaleString('en-us', { month: 'short' }),
-            day: now.getDay(),
+            day: now.getDate(),
             hours: now.getHours(),
             minutes: now.getMinutes(),
             seconds: now.getSeconds()

@@ -2,7 +2,7 @@
     "name": "vz-file-templates",
     "displayName": "VZ File Templates",
     "description": "Create new project files from templates in a visual way just like in the big Visual Studio",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "visualzoran",
     "engines": {
         "vscode": "^1.23.0"
@@ -61,21 +61,25 @@
                         "default": [],
                         "description": "List of paths to user defined file templates folders."
                     },
-                    "vzfiletemplates.userTemplateVariables":{
-                        "type":"object",
-                        "default":{},
-                        "description":"User defined template variables. Defined as {'varName':'value'}"
+                    "vzfiletemplates.userTemplateVariables": {
+                        "type": "object",
+                        "default": {},
+                        "description": "User defined template variables. Defined as {'varName':'value'}"
                     },
-                    "vzfiletemplates.pathConversion":{
-                        "type":"string",
-                        "enum":["win32","posix","leave"],
-                        "default":"leave",
-                        "description":"How to convert paths in templates substitutions - 'posix', with '/' char as separator or 'win32' with '\\'. Value - 'leave' - will do nothing with paths"
+                    "vzfiletemplates.pathConversion": {
+                        "type": "string",
+                        "enum": [
+                            "win32",
+                            "posix",
+                            "leave"
+                        ],
+                        "default": "leave",
+                        "description": "How to convert paths in templates substitutions - 'posix', with '/' char as separator or 'win32' with '\\'. Value - 'leave' - will do nothing with paths"
                     },
-                    "vzfiletemplates.customVariablesConstructor":{
-                        "type":"string",
-                        "default":"",
-                        "description":"Path to javascript file, which will create the custom variables"
+                    "vzfiletemplates.customVariablesConstructor": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Path to javascript file, which will create the custom variables"
                     }
                 }
             }
