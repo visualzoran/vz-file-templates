@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.6
+ - Another big "thank you" should go to dmitribatulin for these changes:
+   - Added support for unexisting paths in templates.json#elements[].targetName option 
+     (paths will be automatically ensured)
+   - [FIX] - fixed $day$ variable value
+
 ## 0.0.5
  - A few changes made by dmitribatulin:
    - New variables added to the template engine

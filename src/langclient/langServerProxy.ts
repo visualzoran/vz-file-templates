@@ -18,22 +18,22 @@ export class LangServerProxy {
         let cacheFolder : string | undefined = vscode.workspace.getConfiguration("vzfiletemplates").get("langServerProxyFolder");
         if ((!cacheFolder) || (cacheFolder == ""))
             cacheFolder = ".langserverproxy";
-        var symbolCacheUrl : vscode.Uri = vscode.Uri.file(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath,
+        let symbolCacheUrl : vscode.Uri = vscode.Uri.file(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath,
             cacheFolder, tempFileName));
-        var symbolCacheFolder = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, cacheFolder);
+        let symbolCacheFolder = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, cacheFolder);
         if (!fs.existsSync(symbolCacheFolder))
             fs.mkdirSync(symbolCacheFolder);
 
         fs.writeFileSync(symbolCacheUrl.fsPath, '');
 
         //write content to the file
-        var edit : vscode.WorkspaceEdit = new vscode.WorkspaceEdit();            
+        let edit : vscode.WorkspaceEdit = new vscode.WorkspaceEdit();            
         edit.insert(symbolCacheUrl, new vscode.Position(0, 0), sourceCode); 
         await vscode.workspace.applyEdit(edit);
               
         //download document symbols
         let pos = new vscode.Position(posLine, posColumn);
-        var list = await
+        let list = await
             vscode.commands.executeCommand<vscode.CompletionList>('vscode.executeCompletionItemProvider', 
             symbolCacheUrl, pos);
 
