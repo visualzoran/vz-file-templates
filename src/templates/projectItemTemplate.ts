@@ -1,9 +1,9 @@
 'use strict';
-
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { ProjectItemTemplateElement } from "./projectItemTemplateElement";
 import { VSCodeHelper } from '../helpers/vscodeHelper';
+import {PathHelper} from '../helpers/pathHelper';
 
 export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate {
     id : number;
@@ -111,7 +111,11 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
                 let templateFile : ProjectItemTemplateElement = this.elements[i];
                 let filePath = path.join(settings.destPath, settings.applyReplacements(templateFile.targetName));
                 let sourcePath = path.join(sourceRootPath, templateFile.fileName);
-
+                // ensure dirpath if it doesn't exists
+                const dir = path.dirname(filePath)
+                if (!fs.existsSync(dir)) {
+                    PathHelper.ensureDirPath(dir);
+                }
                 if (templateFile.replaceParameters) {
                     let fileEncoding = templateFile.encoding;
                     if ((fileEncoding == null) || (fileEncoding == ""))
@@ -124,6 +128,7 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
                     fileContent = settings.applyReplacements(fileContent);
 
                     //save file back
+                    
                     fs.writeFileSync(filePath, fileContent, {encoding : fileEncoding });
 
                 } else {   
