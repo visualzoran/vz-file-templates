@@ -1,6 +1,6 @@
 'use strict';
 
-namespace vzFileTemplates {
+declare module 'vz-file-templates' {
 
     export interface IProjectItemTemplateRunSettings {
         destPath : string;
@@ -9,6 +9,10 @@ namespace vzFileTemplates {
         getInputNameVariable() : string;
         getFileInputNameVariable() : string;
         applyReplacements(value : string) : string;
+        outputChannel : ITemplateOutputChannel;
+        command : string;
+        commandParameters : string[];
+        setCommand(newCommand : string, newCommandParameters : string[]) : void;
     }
 
     export interface IProjectItemTemplate {
@@ -23,6 +27,13 @@ namespace vzFileTemplates {
     export interface IVZFileTemplatesApi {
         registerTemplatesFolder(folderPath : string) : void;
         registerWizard(wizard : IProjectItemWizard) : void;
+    }
+
+    export interface ITemplateOutputChannel {
+        write(value : string) : void;
+        writeLine(value : string) : void;
+        show() : void;
+        hide() : void;
     }
 
 }

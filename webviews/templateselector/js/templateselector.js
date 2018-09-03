@@ -26,7 +26,11 @@ var templateSel = {
     onMessage : function(message) {     
         switch (message.command) {
             case 'setData':
-                this.setData(message.data);
+                this.setDestPath(message.destPath);
+                this.setData(message.data, message.title, message.browseDestPath);
+                break;
+            case 'setDestPath':
+                this.setDestPath(message.destPath);
                 break;
         }
     },
@@ -35,10 +39,20 @@ var templateSel = {
         this._vscode.postMessage(data);    
     },
 
-    setData : function(data) {
+    setDestPath : function(destPath) {
+        $('#inpLocation').val(destPath);
+    },
+
+    setData : function(data, title, browseDestPath) {
         this._data = data;
         this._catTreeItems = [];
         this._allCategories = [];
+
+        $('#title').html(title);
+        if (!browseDestPath) {
+            $('#locationrow').hide();
+            $('#makedirrow').hide();
+        }
 
         //process categories
         this.processCategories(this._data);
@@ -334,15 +348,24 @@ var templateSel = {
     okClick : function() {
         this.sendMessage({
             command: 'okClick',
-            templateId: this._templateId,
-            name : $('#inpName').val()
-        })
+            templateId: this._templateId,            
+            name : $('#inpName').val(),
+            destPath : $('#inpLocation').val(),
+            mkDir: $('#mkdir').prop('checked')
+        });
     },
 
     cancelClick : function() {
         this.sendMessage({
             command: 'cancelClick'
-        })
+        });
+    },
+
+    browseLocation : function() {
+        this.sendMessage({
+            command: 'browseDestPath',
+            destPath: $('#inpLocation').val()
+        });
     },
 
     inpKeyPress : function(e) {

@@ -1,15 +1,29 @@
 'use strict';
 
+import * as vzFileTemplates from 'vz-file-templates';
 import { StringReplacement } from "../helpers/stringReplacement";
 import { StringHelper } from "../helpers/stringHelper";
 
 export class ProjectItemTemplateRunSettings implements vzFileTemplates.IProjectItemTemplateRunSettings {
     destPath : string;
+    outputChannel : vzFileTemplates.ITemplateOutputChannel;
+    command : string;
+    commandParameters : string[];
+
     protected _textRepl : StringReplacement[];
 
-    constructor(newDestPath : string, newTextRepl : StringReplacement[]) {
+    constructor(newDestPath : string, newTextRepl : StringReplacement[], newOutputChannel : vzFileTemplates.ITemplateOutputChannel,
+        newCommand : string, newCommandParameters: string[]) {
         this.destPath = newDestPath;
+        this.outputChannel = newOutputChannel;
         this._textRepl = newTextRepl;
+        this.command = newCommand;
+        this.commandParameters = newCommandParameters.slice();
+    }
+
+    setCommand(newCommand : string, newCommandParameters : string[]) : void {
+        this.command = newCommand;
+        this.commandParameters = newCommandParameters;
     }
 
     getTextReplacement(key : string) : string {

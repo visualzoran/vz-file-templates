@@ -7,11 +7,14 @@
     "iconLight" : "icon-light.svg",
     "iconDark" : "icon-dark.svg",
     "elements" : [
-        {
-            "fileName" : "$fileinputname$",
-            "targetName" : "\$itemname$.txt",
-            "replaceParameters" : true,
-            "open" : true
-        }        
-    ]
+            {
+                "fileName" : "$fileinputname$",
+                "targetName" : "\$itemname$.txt",
+                "replaceParameters" : true,
+                "open" : true
+            }        
+        ],
+    "isProject" : false,
+    "command" : "",
+    "commandParameters" : []
 }

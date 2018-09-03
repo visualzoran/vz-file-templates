@@ -4,8 +4,8 @@
     "defaultName" : "script.js",
     "sortOrder" : "300",
     "category" : "Html",
-    "iconLight" : "icon-light.svg",
-    "iconDark" : "icon-dark.svg",
+    "iconLight" : "JSScript_Light.svg",
+    "iconDark" : "JSScript_Dark.svg",
     "elements" : [
         {
             "fileName" : "file.js",

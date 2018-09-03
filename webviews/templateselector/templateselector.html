@@ -25,6 +25,22 @@
                         <div class="fldcaption">Name:</div>
                         <div class="fldval"><input type="text" id="inpName" name="inpName" onkeydown="templateSel.inpKeyPress(event)"></div>
                     </div>
+                    <div class="inputrow" id="locationrow">
+                        <div class="fldcaption">Location:</div>
+                        <div class="fldval">
+                            <input type="text" id="inpLocation" name="inpLocation" onkeydown="templateSel.inpKeyPress(event)">
+                            <button id="selLocBtn" class="button" style="margin:0,0,0,5px;" onclick="templateSel.browseLocation()">Browse</button>
+                        </div>
+                    </div>
+
+                    <div class="inputrow" id="makedirrow">
+                        <div class="fldcaption"></div>
+                        <div class="fldopt">
+                            <input class="checkbox" checked="checked" type="checkbox" id="mkdir" name="mkdir">
+                            <label class="label" for="mkdir">Create directory for project</label>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

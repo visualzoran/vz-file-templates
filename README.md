@@ -2,11 +2,19 @@
 
 ## Features
 
-VZ File Templates extension adds single and multi-file templates to Visual Studio Code. It allows developer to select a template in a visual way, just like in the big Visual Studio. 
+VZ File Templates extension adds single and multi-file templates to Visual Studio Code. It allows developer to select a template in a visual way, just like in the big Visual Studio. It can work in 2 modes - new project and new project item creation.
+
+### Creating new project item from template 
 
 To invoke template selection, simply right click on folder or file in vs code file explorer and choose "New File from Template" menu item.
 
 ![Template selection](resources/NewFileFromTemplate.gif)
+
+### Creating new project from template
+
+To create new project from template, go to command palette (Ctrl+Shift+P) and select/type "VZ File Templates: New Project From Template" command. If there is a workspace opened in VS Code, new project will be created in the root folder. If workspace is not open, template selection page will show target path field and "Create directory for project" checkbox allowing to create project subfolder in that folder. Default value of destination path can be entered into "vzfiletemplates.defaultProjectsFolder" setting.
+
+### Templates
 
 Templates are loaded from this extension resources and from user defined folders specified in "vzfiletemplates.userTemplatesFolders" setting. Sample setting can look like this one:
 
@@ -61,7 +69,10 @@ Here is sample "template.json" file:
             "replaceParameters" : true,
             "open" : true
         }
-    ]
+    ],
+    "isProject" : false,
+    "command" : "",
+    "commandParameters" : []
 }
 ```
 
@@ -77,6 +88,9 @@ Here is sample "template.json" file:
   * "targetName" - name of the target file, you can use variables to make it dynamic
   * "replaceParameters" - if it is "true" then variables will be also replaced inside file content
   * "open" - if it is true or not specified, then file created from the template will be opened in vs code
+* "isProject" - false for showing template in "new project item" selection, true for showing it in "new project" selection
+* "command" - external command to be run after files are created
+* "commandParameters" - array of string parameters passed to command, it can contain template variables 
 
 ### Template variables
 
@@ -112,6 +126,7 @@ This extension contributes the following settings:
 * `vzfiletemplates.userTemplateVariables`: object to define workspace or user dependent variables. You can define variable as `{"varName>":"varValue"}`, and then - use it in your template just as `$varName$` to substitute your value.
 * `vzfiletemplates.pathConversion`: how template must convert paths for substitution. For instance - you are working under Windows OS on a project, which is designed for Linux OS. If you leave the paths 'as is' it will appear in template with Win32 path separator characters `\\` (because all of the paths resolved on Windows). It's not aesthetic. So this option could specify: `posix` - convert all paths to Unix style; `win32` - convert all paths to Windows style; `leave` - leave 'as is' (default)
 * `vzfiletemplates.customVariablesConstructor`: path to javascript file, which must return object with the generated variables. It is useful, when you need the combinations of variables by some logic, or if you need to calculate some variable value depending on some conditions, or just use javascript for variable construction. Just... Use your fantasy). Could be absolute path or relative to current workspace root dir (if you need own constructor for each project). Usage examples see below..
+* `vzfiletemplates.defaultProjectsFolder`: default path for new projects created by "New Project from Template" command, when there is no open workspace in VS Code.
 
 ## Tips and tricks with template variables
 
@@ -174,6 +189,11 @@ Then - you could use these variables by it's names in your templates.
 
 ## Release Notes
 
+## 0.0.7
+ - List of templates split into 2 separate areas - project items and projects
+ - New command "New Project" added
+ - If "New Project" is run when there is no open workspace in vs code, users can select destination folder where project will be generated.
+ - Added support for commands that can be executed by a template
 
 ## 0.0.6
  - Another big "thank you" should go to dmitribatulin for these changes:

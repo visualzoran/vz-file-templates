@@ -1,6 +1,7 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import * as vzFileTemplates from 'vz-file-templates';
 
 export class ProjectItemWizard implements vzFileTemplates.IProjectItemWizard {
     protected _name : string;

@@ -4,8 +4,8 @@
     "defaultName" : "file.txt",
     "sortOrder" : "100",
     "category" : "Other",
-    "iconLight" : "icon-light.svg",
-    "iconDark" : "icon-dark.svg",
+    "iconLight" : "Template_Light.svg",
+    "iconDark" : "Template_Dark.svg",
     "elements" : [
         {
             "fileName" : "sourceFile.txt",
@@ -31,5 +31,8 @@
             "replaceParameters" : true,
             "open" : false
         }        
-    ]
+    ],
+    "isProject" : false,
+    "command" : "",
+    "commandParameters" : []
 }

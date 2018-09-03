@@ -4,11 +4,14 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
+import * as vzFileTemplates from 'vz-file-templates';
 import { ProjectItemTemplateCategory } from './projectItemTemplateCategory';
 import { ProjectItemTemplate } from './projectItemTemplate';
 import { StringReplacement } from '../helpers/stringReplacement';
 import { ProjectItemTemplateRunSettings } from './projectItemTemplateRunSettings';
 import { StringHelper } from '../helpers/stringHelper';
+import { ProjectItemTemplateSelector } from './projectItemTemplateSelector';
+import { TemplateOutputChannel } from './templateOutputChannel';
 
 export class ProjectItemTemplateManager {
     _rootCategory: ProjectItemTemplateCategory;
@@ -16,16 +19,8 @@ export class ProjectItemTemplateManager {
     protected _context: vscode.ExtensionContext;
     protected _wizards: vzFileTemplates.IProjectItemWizard[];
     protected _selectedTemplatePath: string;
-    // --- info, used for template resolving
-    /**
-     * Destinaion path for the file, to be created based on template
-     * Value used to resolve template variables only.
-     * 
-     * @protected
-     * @type {string}
-     * @memberOf ProjectItemTemplateManager
-     */
-    protected _destinationPath: string;
+    protected _outputChannel: vzFileTemplates.ITemplateOutputChannel;
+
     /**
      * 
      * 
@@ -41,11 +36,11 @@ export class ProjectItemTemplateManager {
         this._rootCategory = new ProjectItemTemplateCategory();
         this._templateFolders = [];
         this._wizards = [];
-        this._destinationPath = "";
+        this._outputChannel = new TemplateOutputChannel();
+        
         this._workspaceDir = "";
-        if ((vscode.workspace.workspaceFolders) && (vscode.workspace.workspaceFolders.length > 0)) {
-            this._workspaceDir = path.normalize(vscode.workspace.workspaceFolders[0].uri.fsPath);
-        }
+        this.refreshWorkspaceDir();
+        
         //add main project items templates path
         this._templateFolders.push(context.asAbsolutePath('templates'));
         //add user templates folders
@@ -58,20 +53,57 @@ export class ProjectItemTemplateManager {
         }
     }
 
-    setSelectedTemplate(template: ProjectItemTemplate) {
-        this._selectedTemplatePath = template.templateFilePath;
+    protected isWorkspaceOpen() : boolean {
+        if ((vscode.workspace) && (vscode.workspace.workspaceFolders) && (vscode.workspace.workspaceFolders.length > 0))
+            return true;
+        return false;
     }
 
-    /**
-     * Setter for destination path of the file, to be created.
-     * [NOTE] - this path used for resolving paths for template substitutions ONLY.
-     * 
-     * @param {string} destPath - path of the file, to be created
-     * 
-     * @memberOf ProjectItemTemplateManager
-     */
-    setDestintationPath(destPath: string) {
-        this._destinationPath = path.normalize(destPath);
+    runNewFileWizard(dirUri : vscode.Uri | undefined) {
+        if ((!dirUri) && (!this.isWorkspaceOpen)) {
+            vscode.window.showErrorMessage("Project items cannot be created if workspace is not open.");
+        } else 
+            this.runWizard(dirUri, false);
+    }
+
+    runNewProjectWizard(dirUri : vscode.Uri | undefined) {
+        this.runWizard(dirUri, true);
+    }
+
+    protected runWizard(dirUri : vscode.Uri | undefined, projectWizard : boolean) {
+        const fs = require('fs');        
+        let browseDestPath : boolean = false;
+        let destPath : string = "";
+        if (dirUri)
+            destPath = dirUri.fsPath;
+        else if ((vscode.workspace) && (vscode.workspace.workspaceFolders) && (vscode.workspace.workspaceFolders.length > 0))
+            destPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+        else {
+            destPath = vscode.workspace.getConfiguration('vzfiletemplates').get('defaultProjectsFolder') || "";
+            browseDestPath = true;
+        }
+
+        let fsStat = fs.statSync(destPath);
+        if (!fsStat.isDirectory())
+            destPath = path.dirname(destPath);       
+               
+        // loading templates
+        this.loadTemplates(projectWizard);
+        
+        //create and show new template selector
+        let title : string;
+        if (projectWizard)
+            title = "New Project";
+        else
+            title = "New Project Item";
+
+        let templateSelector : ProjectItemTemplateSelector = 
+            new ProjectItemTemplateSelector(this._context, this, destPath, title, browseDestPath);
+        templateSelector.show();
+    }
+
+    setSelectedTemplate(template: ProjectItemTemplate) {
+        this._selectedTemplatePath = template.templateFilePath;
     }
 
     registerWizard(wizard: vzFileTemplates.IProjectItemWizard) {
@@ -82,14 +114,15 @@ export class ProjectItemTemplateManager {
         this._templateFolders.push(folderPath);
     }
 
-    loadTemplates() {
+    loadTemplates(projectWizard : boolean) {
+        this.refreshWorkspaceDir();
         this._rootCategory = new ProjectItemTemplateCategory();
         for (let i = 0; i < this._templateFolders.length; i++) {
-            this.loadTemplatesFromFolder(this._templateFolders[i]);
+            this.loadTemplatesFromFolder(this._templateFolders[i], projectWizard);
         }
     }
 
-    protected loadTemplatesFromFolder(sourcePath: string) {
+    protected loadTemplatesFromFolder(sourcePath: string, projectWizard : boolean) {
         // resolve path of each item, stored in "vzfiletemplates.userTemplatesFolders" if it is relative
         // Now all paths could be absolute or relative to workspace
 
@@ -111,7 +144,7 @@ export class ProjectItemTemplateManager {
                 let itemPath: string = path.join(sourcePath, dirContent[i]);
                 let itemStat = fs.statSync(itemPath);
                 if (itemStat.isDirectory())
-                    this.loadTemplatesFromFolder(itemPath);
+                    this.loadTemplatesFromFolder(itemPath, projectWizard);
             }
         }
 
@@ -121,8 +154,10 @@ export class ProjectItemTemplateManager {
             let template: ProjectItemTemplate = new ProjectItemTemplate();
             try {
                 if (template.loadFromFile(templateFilePath)) {
-                    template.selected = (this._selectedTemplatePath == template.templateFilePath);
-                    this.addTemplate(template);
+                    if (template.isProject == projectWizard) {
+                        template.selected = (this._selectedTemplatePath == template.templateFilePath);
+                        this.addTemplate(template);
+                    }
                 }
             }
             catch (e) {
@@ -159,6 +194,7 @@ export class ProjectItemTemplateManager {
     }
 
     runTemplate(destPath: string, template: ProjectItemTemplate, inputName: string): boolean {
+        this.refreshWorkspaceDir();
         //prepare list of variables
         let replList: StringReplacement[] = [];
         let name: string = path.parse(inputName).name;
@@ -171,11 +207,11 @@ export class ProjectItemTemplateManager {
             username: os.userInfo().username || '',
             workspacename: vscode.workspace.name,
             workspacepath: this._workspaceDir,
-            filefullpath: path.join(this._destinationPath, inputName),
-            filerelpath: path.relative(this._workspaceDir, path.join(this._destinationPath, inputName)),
-            dirfullpath: this._destinationPath,
-            dirrelpath: path.relative(this._workspaceDir, this._destinationPath),
-            dirbasename: path.basename(this._destinationPath),
+            filefullpath: path.join(destPath, inputName),
+            filerelpath: path.relative(this._workspaceDir, path.join(destPath, inputName)),
+            dirfullpath: destPath,
+            dirrelpath: path.relative(this._workspaceDir, destPath),
+            dirbasename: path.basename(destPath),
             fileinputname: inputName,
             itemname: name,
             safeitemname: safeName,
@@ -227,7 +263,8 @@ export class ProjectItemTemplateManager {
             replList.push(new StringReplacement(`$${name}$`, `${vars[name]}`));
         }
 
-        let templateSettings = new ProjectItemTemplateRunSettings(destPath, replList);
+        let templateSettings = new ProjectItemTemplateRunSettings(destPath, replList, this._outputChannel,
+            template.command, template.commandParameters);
 
         if ((template.wizardName) && (template.wizardName != "")) {
             let wizard: vzFileTemplates.IProjectItemWizard | undefined = this.getWizard(template.wizardName);
@@ -249,6 +286,13 @@ export class ProjectItemTemplateManager {
                 return this._wizards[i];
         }
         return undefined;
+    }
+
+    protected refreshWorkspaceDir() {
+        if ((vscode.workspace.workspaceFolders) && (vscode.workspace.workspaceFolders.length > 0))
+            this._workspaceDir = path.normalize(vscode.workspace.workspaceFolders[0].uri.fsPath);
+        else
+            this._workspaceDir = "";
     }
 
 }

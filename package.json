@@ -3,7 +3,7 @@
     "displayName": "VZ File Templates",
     "description": "Create new project files from templates in a visual way just like in the big Visual Studio",
 
-    "version": "0.0.6",
+    "version": "0.0.7",
 
     "publisher": "visualzoran",
     "engines": {
@@ -25,7 +25,8 @@
         "file"
     ],
     "activationEvents": [
-        "onCommand:vzfiletemplates.newFile"
+        "onCommand:vzfiletemplates.newFile",
+        "onCommand:vzfiletemplates.newProject"
     ],
     "icon": "resources/vzfiletemplates.png",
     "main": "./out/extension",
@@ -33,7 +34,13 @@
         "commands": [
             {
                 "command": "vzfiletemplates.newFile",
-                "title": "New File from Template"
+                "title": "New File from Template",
+                "category": "VZ File Templates"
+            },
+            {
+                "command": "vzfiletemplates.newProject",
+                "title": "New Project from Template",
+                "category": "VZ File Templates"
             }
         ],
         "menus": {
@@ -82,6 +89,11 @@
                         "type": "string",
                         "default": "",
                         "description": "Path to javascript file, which will create the custom variables"
+                    },
+                    "vzfiletemplates.defaultProjectsFolder": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Path do default folder displayed in template selector when 'New Project' command is invoked and no folder is opened in Visual Studio"
                     }
                 }
             }

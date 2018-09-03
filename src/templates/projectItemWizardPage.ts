@@ -2,6 +2,7 @@
 
 import * as vscode from 'vscode';
 import { BaseWebViewEditor } from '../webviews/baseWebViewEditor';
+import * as vzFileTemplates from 'vz-file-templates';
 
 export class ProjectItemWizardPage extends BaseWebViewEditor {
     protected _template : vzFileTemplates.IProjectItemTemplate;

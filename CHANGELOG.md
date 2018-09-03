@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.7
+ - List of templates split into 2 separate areas - project items and projects
+ - New command "New Project" added
+ - If "New Project" is run when there is no open workspace in vs code, users can select destination folder where project will be generated.
+ - Added support for commands that can be executed by a template
+
 ## 0.0.6
  - Another big "thank you" should go to dmitribatulin for these changes:
    - Added support for unexisting paths in templates.json#elements[].targetName option 

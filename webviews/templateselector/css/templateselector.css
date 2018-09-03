@@ -84,12 +84,28 @@ body {
     align-items: center;
     justify-content: stretch;
 }
+
+.rinputrow {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.inputrow button {
+    margin: 3px 6px 3px 0px;
+    padding: 3px 4px 4px 4px;
+    width: 80px;
+}
+
 .fldcaption {
     flex: 0 0 70px;
     padding: 2px 8px;
     display: flex;
     text-align: right;
 }
+
 .fldval {
     flex: 1 1 auto;
     padding: 2px;
@@ -98,6 +114,19 @@ body {
     align-items: stretch;
     justify-content: stretch;
 }
+
+.fldopt {
+    padding: 2px;
+    overflow: hidden;
+    overflow: hidden;
+}
+.fldopt .label {
+    padding: 2px;
+}
+.fldopt .checkbox {
+    vertical-align: middle;
+}
+
 .category {
     margin : 0;
     padding : 2px;

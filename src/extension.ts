@@ -1,9 +1,8 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as path from 'path';
+import * as vzFileTemplates from 'vz-file-templates';
 import { ProjectItemTemplateManager } from './templates/projectItemTemplateManager';
-import { ProjectItemTemplateSelector } from './templates/projectItemTemplateSelector';
 import { VzFileTemplatesApi } from './vzFileTemplatesApi';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -11,25 +10,17 @@ export function activate(context: vscode.ExtensionContext) {
     const itemTemplateManager : ProjectItemTemplateManager = new ProjectItemTemplateManager(context);    
     
     let disposable = vscode.commands.registerCommand('vzfiletemplates.newFile', (dirUri) => {
-        const fs = require('fs');        
-        let destPath = dirUri.fsPath;
-        let fsStat = fs.statSync(destPath);
-        if (!fsStat.isDirectory())
-            destPath = path.dirname(destPath);       
-            
-        //value set for informational purpose only
-        itemTemplateManager.setDestintationPath(destPath);
-        
-        // loading templates
-        itemTemplateManager.loadTemplates();
-        
-        //create and show new template selector
-        let templateSelector : ProjectItemTemplateSelector = 
-            new ProjectItemTemplateSelector(context, itemTemplateManager, destPath);
-        templateSelector.show();
+        itemTemplateManager.runNewFileWizard(dirUri);
     });
 
     context.subscriptions.push(disposable);
+
+    disposable = vscode.commands.registerCommand('vzfiletemplates.newProject', (dirUri) => {
+        itemTemplateManager.runNewProjectWizard(dirUri);
+    });
+
+    context.subscriptions.push(disposable);
+
 
     //build api
     let api : vzFileTemplates.IVZFileTemplatesApi = new VzFileTemplatesApi(itemTemplateManager);

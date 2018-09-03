@@ -4,8 +4,8 @@
     "defaultName" : "NewClass.ts",
     "sortOrder" : "200",
     "category" : "TypeScript",
-    "iconLight" : "icon-light.svg",
-    "iconDark" : "icon-dark.svg",
+    "iconLight" : "TSSourceFile_Light.svg",
+    "iconDark" : "TSSourceFile_Dark.svg",
     "elements" : [
         {
             "fileName" : "file.txt",

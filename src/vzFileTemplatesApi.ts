@@ -1,6 +1,7 @@
 'use strict';
 
 import { ProjectItemTemplateManager } from "./templates/projectItemTemplateManager";
+import * as vzFileTemplates from 'vz-file-templates';
 
 export class VzFileTemplatesApi implements vzFileTemplates.IVZFileTemplatesApi {
     protected _templateManager : ProjectItemTemplateManager;

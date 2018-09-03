@@ -4,8 +4,8 @@
     "defaultName" : "HtmlPage.html",
     "sortOrder" : "100",
     "category" : "Html",
-    "iconLight" : "icon-light.svg",
-    "iconDark" : "icon-dark.svg",
+    "iconLight" : "HTMLFile_Light.svg",
+    "iconDark" : "HTMLFile_Dark.svg",
     "elements" : [
         {
             "fileName" : "file.html",
