@@ -3,7 +3,7 @@
     "displayName": "VZ File Templates",
     "description": "Create new project files from templates in a visual way just like in the big Visual Studio",
 
-    "version": "0.0.7",
+    "version": "1.0.0",
 
     "publisher": "visualzoran",
     "engines": {

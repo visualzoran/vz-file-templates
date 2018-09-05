@@ -80,13 +80,20 @@ export class ProjectItemTemplateManager {
             destPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
         else {
             destPath = vscode.workspace.getConfiguration('vzfiletemplates').get('defaultProjectsFolder') || "";
+            if (destPath === "") {
+                destPath = process.env.HOME || process.env.USERPROFILE || process.env.HOMEPATH  || "";
+                if (destPath !== "")
+                    destPath = path.resolve(destPath);
+            }
             browseDestPath = true;
         }
 
-        let fsStat = fs.statSync(destPath);
-        if (!fsStat.isDirectory())
-            destPath = path.dirname(destPath);       
-               
+        if (destPath !== "") {
+            let fsStat = fs.statSync(destPath);
+            if (!fsStat.isDirectory())
+                destPath = path.dirname(destPath);       
+        }
+
         // loading templates
         this.loadTemplates(projectWizard);
         

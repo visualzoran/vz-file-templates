@@ -189,6 +189,10 @@ Then - you could use these variables by it's names in your templates.
 
 ## Release Notes
 
+## 1.0.0
+  - It seems that extension has enough basic functionality, so it can finally be called "version 1.0.0"
+  - Empty "vzfiletemplates.defaultProjectsFolder" setting was breaking new project wizard
+
 ## 0.0.7
  - List of templates split into 2 separate areas - project items and projects
  - New command "New Project" added
