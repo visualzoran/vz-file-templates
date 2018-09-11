@@ -12,11 +12,11 @@ export class ProjectItemTemplateRunSettings implements vzFileTemplates.IProjectI
 
     protected _textRepl : StringReplacement[];
 
-    constructor(newDestPath : string, newTextRepl : StringReplacement[], newOutputChannel : vzFileTemplates.ITemplateOutputChannel,
+    constructor(newDestPath : string, newOutputChannel : vzFileTemplates.ITemplateOutputChannel,
         newCommand : string, newCommandParameters: string[]) {
         this.destPath = newDestPath;
         this.outputChannel = newOutputChannel;
-        this._textRepl = newTextRepl;
+        this._textRepl = [];
         this.command = newCommand;
         this.commandParameters = newCommandParameters.slice();
     }
@@ -34,7 +34,7 @@ export class ProjectItemTemplateRunSettings implements vzFileTemplates.IProjectI
         return "";
     }
 
-    setTextReplacement(key : string, value : string) {
+    setTextReplacement(key : string, value : string) : void {
         var newTextRepl : StringReplacement | undefined = this.findTextReplacement(key);
         if (newTextRepl === undefined) {
             newTextRepl = new StringReplacement(key, value);
@@ -42,6 +42,15 @@ export class ProjectItemTemplateRunSettings implements vzFileTemplates.IProjectI
         } else {
             newTextRepl.newText = value;
         }
+    }
+
+    setVariable(name : string, value : string) : void {
+        this.setTextReplacement(`\\$${name}$`, `$${name}$`);
+        this.setTextReplacement(`$${name}$`, `${value}`);
+    }
+
+    getVariable(name : string) : string {
+        return this.getTextReplacement(`$${name}$`);
     }
 
     getInputNameVariable() : string {

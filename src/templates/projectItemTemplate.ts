@@ -22,6 +22,8 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
     isProject : boolean;
     command : string;
     commandParameters : string[];
+    openFiles : string[];
+    settingsProcessors : string[];
 
     constructor() {
         this.id = 0;
@@ -39,6 +41,8 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
         this.isProject = false;
         this.command = "";
         this.commandParameters = [];
+        this.openFiles = [];
+        this.settingsProcessors = [];
     }
 
     loadFromFile(filePath : string) : boolean {
@@ -67,8 +71,12 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
         this.elements = [];
         this.command = content.command as string;
         this.commandParameters = [];
+        this.openFiles = [];
+        this.settingsProcessors = [];
         if (content.isProject)
             this.isProject = content.isProject as boolean;
+        else
+            this.isProject = false;
 
         //copy template items
         if (content.elements) {
@@ -84,6 +92,20 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
         if (content.commandParameters) {
             for (let i=0; i<content.commandParameters.length; i++) {
                 this.commandParameters.push(content.commandParameters[i] as string);
+            }
+        }
+
+        //copy names of files to open
+        if (content.openFiles) {
+            for (let i=0; i<content.openFiles.length; i++) {
+                this.openFiles.push(content.openFiles[i]);
+            }
+        }
+
+        //copy names of settings processors
+        if (content.settingsProcessors) {
+            for (let i=0; i<content.settingsProcessors.length; i++) {
+                this.settingsProcessors.push(content.settingsProcessors[i]);
             }
         }
 
@@ -182,9 +204,20 @@ export class ProjectItemTemplate implements vzFileTemplates.IProjectItemTemplate
         if ((!vscode.workspace) || (!vscode.workspace.workspaceFolders) || (vscode.workspace.workspaceFolders.length == 0)) {
             vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(settings.destPath));
         }
+        
         //open documents
         for (let i=0; i<files.length; i++) {
             VSCodeHelper.openDocument(vscode.Uri.file(files[i]));
+        }
+        
+        //open files from openFiles setting
+        if (this.openFiles) {
+            for (let i=0; i<this.openFiles.length; i++) {
+                let fileName = settings.applyReplacements(this.openFiles[i]);
+                if (!path.isAbsolute(fileName))
+                    fileName = path.join(settings.destPath, fileName);
+                VSCodeHelper.openDocument(vscode.Uri.file(fileName));
+            }
         }
     }
 

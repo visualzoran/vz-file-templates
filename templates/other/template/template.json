@@ -34,5 +34,7 @@
     ],
     "isProject" : false,
     "command" : "",
-    "commandParameters" : []
+    "commandParameters" : [],
+    "openFiles" : [],
+    "settingsProcessors" : []
 }

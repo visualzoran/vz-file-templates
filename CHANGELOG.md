@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+  - Template allows to specify list of names of files that should be opened at the end of processing. It can be used if files are created by external command.
+  - ITemplateRunSettingsProcessor interface added. It allows to  implement additional logic populating template variables in dependent extensions. 
+
 ## 1.0.0
   - It seems that extension has enough basic functionality, so it can finally be called "version 1.0.0"
   - Empty "vzfiletemplates.defaultProjectsFolder" setting was breaking new project wizard

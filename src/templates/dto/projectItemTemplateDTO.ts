@@ -38,11 +38,11 @@ export class ProjectItemTemplateDTO {
         let number = 1;
         let nameParts = path.parse(name);
         
-        name = nameParts.name + " " + number.toString() + nameParts.ext; 
+        name = nameParts.name + number.toString() + nameParts.ext; 
         fullPath = path.join(destPath, name);
         while ((fs.existsSync(fullPath)) && (number < 1000)) {
             number++;
-            name = nameParts.name + " " + number.toString() + nameParts.ext; 
+            name = nameParts.name + number.toString() + nameParts.ext; 
             fullPath = path.join(destPath, name);
         }
 

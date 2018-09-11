@@ -6,6 +6,8 @@ declare module 'vz-file-templates' {
         destPath : string;
         getTextReplacement(key : string) : string;
         setTextReplacement(key : string, value : string) : void;
+        getVariable(name : string) : string;
+        setVariable(name : string, value : string) : void;
         getInputNameVariable() : string;
         getFileInputNameVariable() : string;
         applyReplacements(value : string) : string;
@@ -19,6 +21,11 @@ declare module 'vz-file-templates' {
         run(settings : IProjectItemTemplateRunSettings) : boolean;
     }
 
+    export interface ITemplateRunSettingsProcessor {
+        getName() : string;
+        processSettings(settings : IProjectItemTemplateRunSettings) : void;
+    }
+
     export interface IProjectItemWizard {
         getName() : string;
         run(template : IProjectItemTemplate, settings : IProjectItemTemplateRunSettings) : void;
@@ -27,6 +34,7 @@ declare module 'vz-file-templates' {
     export interface IVZFileTemplatesApi {
         registerTemplatesFolder(folderPath : string) : void;
         registerWizard(wizard : IProjectItemWizard) : void;
+        registerRunSettingsProcessor(settingsProcessor : ITemplateRunSettingsProcessor) : void;
     }
 
     export interface ITemplateOutputChannel {

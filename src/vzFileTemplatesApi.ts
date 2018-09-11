@@ -18,4 +18,8 @@ export class VzFileTemplatesApi implements vzFileTemplates.IVZFileTemplatesApi {
         this._templateManager.registerWizard(wizard);
     }
 
+    registerRunSettingsProcessor(settingsProcessor : vzFileTemplates.ITemplateRunSettingsProcessor) : void {
+        this._templateManager.registerRunSettingsProcessor(settingsProcessor);
+    }
+
 }

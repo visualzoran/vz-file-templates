@@ -7,17 +7,18 @@ import * as fs from 'fs';
 import * as vzFileTemplates from 'vz-file-templates';
 import { ProjectItemTemplateCategory } from './projectItemTemplateCategory';
 import { ProjectItemTemplate } from './projectItemTemplate';
-import { StringReplacement } from '../helpers/stringReplacement';
 import { ProjectItemTemplateRunSettings } from './projectItemTemplateRunSettings';
 import { StringHelper } from '../helpers/stringHelper';
 import { ProjectItemTemplateSelector } from './projectItemTemplateSelector';
 import { TemplateOutputChannel } from './templateOutputChannel';
+import { IRunSettingsProcessorDictionary } from './iRunSettingsProcessorDictionary';
 
 export class ProjectItemTemplateManager {
     _rootCategory: ProjectItemTemplateCategory;
     protected _templateFolders: string[];
     protected _context: vscode.ExtensionContext;
     protected _wizards: vzFileTemplates.IProjectItemWizard[];
+    protected _settingsProcessors: IRunSettingsProcessorDictionary;
     protected _selectedTemplatePath: string;
     protected _outputChannel: vzFileTemplates.ITemplateOutputChannel;
 
@@ -36,6 +37,7 @@ export class ProjectItemTemplateManager {
         this._rootCategory = new ProjectItemTemplateCategory();
         this._templateFolders = [];
         this._wizards = [];
+        this._settingsProcessors = {};
         this._outputChannel = new TemplateOutputChannel();
         
         this._workspaceDir = "";
@@ -121,6 +123,10 @@ export class ProjectItemTemplateManager {
         this._templateFolders.push(folderPath);
     }
 
+    registerRunSettingsProcessor(settingsProcessor : vzFileTemplates.ITemplateRunSettingsProcessor) : void {
+        this._settingsProcessors[settingsProcessor.getName()] = settingsProcessor;
+    }
+
     loadTemplates(projectWizard : boolean) {
         this.refreshWorkspaceDir();
         this._rootCategory = new ProjectItemTemplateCategory();
@@ -203,7 +209,6 @@ export class ProjectItemTemplateManager {
     runTemplate(destPath: string, template: ProjectItemTemplate, inputName: string): boolean {
         this.refreshWorkspaceDir();
         //prepare list of variables
-        let replList: StringReplacement[] = [];
         let name: string = path.parse(inputName).name;
         let safeName: string = StringHelper.toSafeName(name);
         // date object, used for resolving substitutions
@@ -263,15 +268,24 @@ export class ProjectItemTemplateManager {
                     Object.assign(vars, userCustomConstructor);
                 }
             }
-        }       
-
-        for (let name in vars) {
-            replList.push(new StringReplacement(`\\$${name}$`, `$${name}$`));
-            replList.push(new StringReplacement(`$${name}$`, `${vars[name]}`));
         }
 
-        let templateSettings = new ProjectItemTemplateRunSettings(destPath, replList, this._outputChannel,
+        let templateSettings = new ProjectItemTemplateRunSettings(destPath, this._outputChannel,
             template.command, template.commandParameters);
+
+        for (let name in vars) {
+            templateSettings.setVariable(name, vars[name]);
+        }
+    
+        //run settings processors
+        if (template.settingsProcessors) {
+            for (let i=0; i<template.settingsProcessors.length; i++) {
+                let settigsProcessor : vzFileTemplates.ITemplateRunSettingsProcessor | undefined =
+                    this._settingsProcessors[template.settingsProcessors[i]];
+                if (settigsProcessor)
+                    settigsProcessor.processSettings(templateSettings);
+            }
+        }        
 
         if ((template.wizardName) && (template.wizardName != "")) {
             let wizard: vzFileTemplates.IProjectItemWizard | undefined = this.getWizard(template.wizardName);
