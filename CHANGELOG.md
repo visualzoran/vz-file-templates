@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.2
+  - Updated node packages references
+  - Extension requires Visual Studio Code 1.26.0 now
+
 ## 1.0.1
   - Template allows to specify list of names of files that should be opened at the end of processing. It can be used if files are created by external command.
   - ITemplateRunSettingsProcessor interface added. It allows to  implement additional logic populating template variables in dependent extensions. 
