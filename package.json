@@ -49,6 +49,12 @@
                 }
             ]
         },
+        "jsonValidation": [
+            {
+                "fileMatch": "template.json",
+                "url": "./resources/templateSchema.json"
+            }
+        ],
         "configuration": [
             {
                 "title": "VZ File Templates",

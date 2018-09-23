@@ -12,6 +12,7 @@ import { StringHelper } from '../helpers/stringHelper';
 import { ProjectItemTemplateSelector } from './projectItemTemplateSelector';
 import { TemplateOutputChannel } from './templateOutputChannel';
 import { IRunSettingsProcessorDictionary } from './iRunSettingsProcessorDictionary';
+import { Guid } from '../helpers/guid';
 
 export class ProjectItemTemplateManager {
     _rootCategory: ProjectItemTemplateCategory;
@@ -276,6 +277,9 @@ export class ProjectItemTemplateManager {
         for (let name in vars) {
             templateSettings.setVariable(name, vars[name]);
         }
+
+        //add guid variables
+        this.addGuidVariable(templateSettings, "guid");
     
         //run settings processors
         if (template.settingsProcessors) {
@@ -315,5 +319,19 @@ export class ProjectItemTemplateManager {
         else
             this._workspaceDir = "";
     }
+
+    //#region Helper functions
+
+    protected addGuidVariable(settings: vzFileTemplates.IProjectItemTemplateRunSettings, name : string) {
+        let guid : Guid = new Guid();
+        settings.setVariable(name, guid.format("D"));
+        settings.setVariable(name + ":N", guid.format("D"));
+        settings.setVariable(name + ":B", guid.format("B"));
+        settings.setVariable(name + ":P", guid.format("P"));
+        settings.setVariable(name + ":X", guid.format("X"));
+        settings.setVariable(name + ":D", guid.format("D"));
+    }
+
+    //#endregion
 
 }

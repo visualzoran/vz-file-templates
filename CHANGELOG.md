@@ -3,6 +3,8 @@
 ## 1.0.2
   - Updated node packages references
   - Extension requires Visual Studio Code 1.26.0 now
+  - template.json file schema added, so VSCode shows descriptions of template file properties
+  - New $guid$ template variable added
 
 ## 1.0.1
   - Template allows to specify list of names of files that should be opened at the end of processing. It can be used if files are created by external command.

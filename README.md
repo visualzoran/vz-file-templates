@@ -121,6 +121,7 @@ At this moment only these variables are supported:
 * $minutes$ - Current minute
 * $seconds$ - Current seconds
 * $workspace$ - The name of the workspace you work in
+* $guid$ - random GUID, this variable does not change during single template run. Can be used with standard GUID format identifiers: $guid:N$, $guid:D$, $guid:B$, $guid:P$ and $guid:X$
 
 Additional variables can be added by implementing and registering settings processors and then listing their names in "settingsProcessors" property inside template.
 
@@ -198,6 +199,8 @@ Then - you could use these variables by it's names in your templates.
 ## 1.0.2
   - Updated node packages references
   - Extension requires Visual Studio Code 1.26.0 now
+  - template.json file schema added, so VSCode shows descriptions of template file properties
+  - New $guid$ template variable added
 
 ## 1.0.1
   - Template allows to specify list of names of files that should be opened at the end of processing. It can be used if files are created by external command.
