@@ -263,10 +263,13 @@ export class ProjectItemTemplateManager {
                 // updating variables values in global scope
                 (global as any).vzfiletemplates={};
                 ((global as any).vzfiletemplates as any).variables = vars;
-                let userCustomConstructor = require(userConstructorFilePath);
+                const userCustomConstructor = require(userConstructorFilePath);
                 if(userCustomConstructor){
-                    // update vars list 
-                    Object.assign(vars, userCustomConstructor);
+                    if (userCustomConstructor.createVariables)
+                        userCustomConstructor.createVariables(vars);
+                    else
+                        // update vars list 
+                        Object.assign(vars, userCustomConstructor);
                 }
             }
         }

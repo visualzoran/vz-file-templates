@@ -87,6 +87,10 @@
                 "description": "Settings processor name.",
                 "type": "string"
             }
+        },
+        "wizardName" : {
+            "description" : "Name of wizard that will be run after template is selected",
+            "type" : "string"
         }
     }
 }

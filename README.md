@@ -174,14 +174,14 @@ For instance: in your ``<projRoot>/.vscode/settings.json``:
 Then in file ``<projRoot>/.vscode/customVars.js``:
 
 ```javascript
-// this how you could retrieve all of the variables, merged from built in list and custom variables, specified in configs
-const variables = global.vzfiletemplates.variables;
-
 module.exports={
-    myAwesomeVar: `My very awesome variable in project ${variables.workspacename}`,
-    // also here could be overriden any variablle (both built in or configurable custom var)
-    myVariableAtUserConfig: "newValue",
-    workspacepath: "/"
+    //export createVariables function expecting list of variables as a parameter and create or update them inside
+    createVariables: function(variables) {
+        variables.myAwesomeVar = `My very awesome variable in project ${variables.workspacename}`;
+        // also here could be overriden any variablle (both built in or configurable custom var)
+        variables.myVariableAtUserConfig = "newValue";
+        variables.workspacepath = "/";
+    }    
 };
 ```
 
@@ -195,6 +195,10 @@ Then - you could use these variables by it's names in your templates.
 - dmitribatulin
 
 ## Release Notes
+
+## 1.0.3
+  - Custom variables constructor js definition changed as previous version was calculating variables only once during first load. Now it should export createVariables function that can be used to create and update list of variables. If function is not defined, old approach will still work.
+  - Missing "wizardName" property added to template.json file schema  
 
 ## 1.0.2
   - Updated node packages references
