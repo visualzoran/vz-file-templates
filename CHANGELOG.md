@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.4
+  - Unused language server proxy class removed
+
+## 1.0.3
+  - Custom variables constructor js definition changed as previous version was calculating variables only once during first load. Now it should export createVariables function that can be used to create and update list of variables. If function is not defined, old approach will still work.
+  - Missing "wizardName" property added to template.json file schema  
+
 ## 1.0.2
   - Updated node packages references
   - Extension requires Visual Studio Code 1.26.0 now
