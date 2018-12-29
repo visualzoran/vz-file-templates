@@ -90,7 +90,7 @@ export class BaseWebViewEditor {
     protected reloadWebViewContent() {
         this._documentLoaded = false;
         if (this._panel)
-            this._panel.webview.html = this._htmlContent;
+            this._panel.webview.html = this._htmlContent;            
     }
 
     protected sendMessage(message : any) {
