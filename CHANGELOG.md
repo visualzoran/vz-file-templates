@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.5
+  - References update
+
 ## 1.0.4
   - Unused language server proxy class removed
 
